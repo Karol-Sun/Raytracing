@@ -345,29 +345,29 @@ if __name__ == "__main__":
     #     generate_pic(O, Q, k)
 
     ##### 2 camera movement #####
-    # ray_scene = Scene(scene_objects, light_point, light_color, ambient)
-    # w, h = 800, 600
-    #
-    # O = np.array([-3., 0.35, -1.])  # camera position
-    # Q = np.array([-3., 0., 0.])  # camera direction
-    # for k in range(20):
-    #     generate_pic(O, Q, k)
-    #     O[0] += 0.2
-    #     Q[0] += 0.2
-
-    ##### 3 camera rotation #####
     ray_scene = Scene(scene_objects, light_point, light_color, ambient)
     w, h = 800, 600
 
-    r1 = 7
-    r2 = 4
-    center = np.array([-1., 0., 1.75])  # camera center
-    O = np.array([-1, 0.35, center[2] + r1])  # camera position
-    Q = np.array([-1, 0.35, center[2] + r2])  # camera direction
-    num = 1000  # number of picture to be rendered
-    for k in range(num):
+    O = np.array([-3., 0.35, -1.])  # camera position
+    Q = np.array([-3., 0., 0.])  # camera direction
+    for k in range(20):
         generate_pic(O, Q, k)
-        O[0] = center[0] + np.sin((k + 1) * 2 * np.pi / num) * r1
-        O[2] = center[2] + np.cos((k + 1) * 2 * np.pi / num) * r1
-        Q[0] = center[0] + np.sin((k + 1) * 2 * np.pi / num) * r2
-        Q[2] = center[2] + np.cos((k + 1) * 2 * np.pi / num) * r2
+        O[0] += 0.2
+        Q[0] += 0.2
+
+    ##### 3 camera rotation #####
+    # ray_scene = Scene(scene_objects, light_point, light_color, ambient)
+    # w, h = 800, 600
+    #
+    # r1 = 7
+    # r2 = 4
+    # center = np.array([-1., 0., 1.75])  # camera center
+    # O = np.array([-1, 0.35, center[2] + r1])  # camera position
+    # Q = np.array([-1, 0.35, center[2] + r2])  # camera direction
+    # num = 1000  # number of picture to be rendered
+    # for k in range(1000):
+    #     generate_pic(O, Q, k)
+    #     O[0] = center[0] + np.sin((k + 1) * 2 * np.pi / num) * r1
+    #     O[2] = center[2] + np.cos((k + 1) * 2 * np.pi / num) * r1
+    #     Q[0] = center[0] + np.sin((k + 1) * 2 * np.pi / num) * r2
+    #     Q[2] = center[2] + np.cos((k + 1) * 2 * np.pi / num) * r2
