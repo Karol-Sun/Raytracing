@@ -172,7 +172,7 @@ class Sphere(Object):
         q_square = self.radius ** 2 - m_square
         return (l - np.sqrt(q_square)) if q_square >= 0 else np.inf
 
-    def get_normal(self, point):
+    def get_normal(self, point):  # normalize
         return normalize(point - self.position)
 
 
@@ -198,20 +198,44 @@ class Plane(Object):
             self.texture = None
 
     def load_texture(self, texture_file):
+        '''
+        load texture of the plane into the world.
+
+        **Parameters**
+
+            texture_file: * str *
+                filename of the image of plane texture.
+
+        **Returns**
+
+            np.array of texture image.
+        '''
         texture_image = Image.open(texture_file)
         return np.array(texture_image)
 
     def intersect(self, ray):
+        '''
+        Intersection point of ray on the plane
+
+        **Parameters**
+
+            ray: * object *
+                current ray to be traced
+
+        **Returns**
+
+            distance between intersection point and ray startpoint
+        '''
         dn = np.dot(ray.direction, self.normal)
         if np.abs(dn) < 1e-6:
             return np.inf
         d = np.dot(self.position - ray.origin, self.normal) / dn
         return d if d > 0 else np.inf
 
-    def get_normal(self, point):
+    def get_normal(self, point):  # return normal vector of the plane
         return self.normal
 
-    def get_color(self, point):
+    def get_color(self, point):  # return color of the certain point of the plane
         if self.texture is not None:
             tex_coords = np.array([(point[0] + 0.5) / self.width, (point[2] + 0.5) / self.height])
             tex_coords *= np.array([self.texture.shape[1], self.texture.shape[0]])
@@ -243,6 +267,20 @@ class Scene:
         self.ambient = ambient
 
     def intersect_color(self, ray, intensity):
+        '''
+        Intersection color of ray
+
+        **Parameters**
+
+            ray: * object *
+                current ray to be traced
+            intensity: * float *
+                when the reflected light intensity lower than this value, stop reflecting and output the color
+
+        **Returns**
+
+            normalized color of the current pixel
+        '''
         min_distance = np.inf
         for obj in self.objects:
             current_distance = obj.intersect(ray)
@@ -287,7 +325,14 @@ if __name__ == "__main__":
     scene_objects = [sphere1, sphere2, sphere3, plane]
     # scene_objects = [sphere, plane]
 
+    ######## single image output ########
+    # O = np.array([0., 0.35, -1.])  # camera position
+    # Q = np.array([0., 0., 0.])  # camera direction
+    # w, h = 800, 600
+    # ray_scene = Scene(scene_objects, light_point, light_color, ambient)
+    # generate_pic(O, Q, k)
 
+    ######## image sequence rendering ########
     ##### 1 light rotation #####
     # light = generate_points_on_circle(radius=10, y_set=5, num_points=500)
     # O = np.array([0., 0.35, -1.])  # camera position
